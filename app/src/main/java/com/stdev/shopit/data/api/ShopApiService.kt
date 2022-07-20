@@ -16,7 +16,7 @@ interface ShopApiService {
     suspend fun getAllCategories() : Response<Category>
 
     @GET("products/category/{category}")
-    suspend fun getCategory(@Path(value = "category") category : String) : Response<Category>
+    suspend fun getCategoryProducts(@Path(value = "category") category : String) : Response<Shop>
 
     @POST("products")
     suspend fun uploadProduct(@Body shopItem : ShopItem) : Response<ShopItem>

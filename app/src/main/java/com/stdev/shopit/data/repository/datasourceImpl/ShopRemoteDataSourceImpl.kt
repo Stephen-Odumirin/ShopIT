@@ -20,8 +20,8 @@ class ShopRemoteDataSourceImpl(
         return apiService.getAllCategories()
     }
 
-    override suspend fun getCategory(category: String): Response<Category> {
-        return apiService.getCategory(category)
+    override suspend fun getCategoryProducts(category: String): Response<Shop> {
+        return apiService.getCategoryProducts(category)
     }
 
     override suspend fun uploadProduct(shopItem: ShopItem): Response<ShopItem> {

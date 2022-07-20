@@ -10,7 +10,7 @@ interface ShopRemoteDataSource {
     suspend fun getAllProducts() : Response<Shop>
     suspend fun getProduct(itemId : Int) : Response<ShopItem>
     suspend fun getAllCategories() : Response<Category>
-    suspend fun getCategory(category : String) : Response<Category>
+    suspend fun getCategoryProducts(category : String) : Response<Shop>
     suspend fun uploadProduct(shopItem : ShopItem) : Response<ShopItem>
     suspend fun updateProduct(id : Int, shopItem : ShopItem) : Response<ShopItem>
     suspend fun deleteProduct(id : Int) : Response<ShopItem>

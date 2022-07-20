@@ -8,20 +8,40 @@ import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.stdev.shopit.data.model.Category
 import com.stdev.shopit.data.model.Shop
 import com.stdev.shopit.data.util.Resource
+import com.stdev.shopit.domain.usecase.GetAllCategoriesUseCase
 import com.stdev.shopit.domain.usecase.GetAllProductsUseCase
+import com.stdev.shopit.domain.usecase.GetCategoryProductUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import kotlin.Exception
 
 class HomeViewModel(
     private val app : Application,
     private val getAllProductsUseCase: GetAllProductsUseCase,
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+    private val getCategoryProductUseCase: GetCategoryProductUseCase
 ) : AndroidViewModel(app){
 
     val products : MutableLiveData<Resource<Shop>> = MutableLiveData()
+    val categories : MutableLiveData<Resource<Category>> = MutableLiveData()
+
+    fun getAllCategories() = viewModelScope.launch(IO) {
+        categories.postValue(Resource.Loading())
+        try {
+            if (isNetworkAvailable(app)){
+                val apiResult = getAllCategoriesUseCase.execute()
+                categories.postValue(apiResult)
+            }else{
+                categories.postValue(Resource.Error(message = "Internet not available"))
+            }
+        }catch (e : Exception){
+            categories.postValue(Resource.Error(message = "${e.localizedMessage}"))
+        }
+    }
 
     fun getAllProducts() = viewModelScope.launch(IO) {
         products.postValue(Resource.Loading())
@@ -35,6 +55,25 @@ class HomeViewModel(
         }catch (e : Exception){
             products.postValue(Resource.Error(message = "${e.localizedMessage}"))
         }
+    }
+
+    fun getCategoryProducts(category : String) = viewModelScope.launch(IO) {
+        if(category != "All"){
+            products.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(app)){
+                    val apiResult = getCategoryProductUseCase.execute(category)
+                    products.postValue(apiResult)
+                }else{
+                    products.postValue(Resource.Error(message = "Internet not available"))
+                }
+            }catch (e : Exception){
+                products.postValue(Resource.Error(message = "${e.localizedMessage}"))
+            }
+        }else{
+            getAllProducts()
+        }
+
     }
 
     private fun isNetworkAvailable(context : Context?) : Boolean{
