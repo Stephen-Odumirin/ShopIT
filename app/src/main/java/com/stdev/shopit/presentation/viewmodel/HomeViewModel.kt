@@ -10,20 +10,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.stdev.shopit.data.model.Category
 import com.stdev.shopit.data.model.Shop
+import com.stdev.shopit.data.util.Network
+import com.stdev.shopit.data.util.Network.isNetworkAvailable
 import com.stdev.shopit.data.util.Resource
-import com.stdev.shopit.domain.usecase.GetAllCategoriesUseCase
-import com.stdev.shopit.domain.usecase.GetAllProductsUseCase
-import com.stdev.shopit.domain.usecase.GetCategoryProductUseCase
+import com.stdev.shopit.domain.usecase.ProductUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.Exception
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val app : Application,
-    private val getAllProductsUseCase: GetAllProductsUseCase,
-    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
-    private val getCategoryProductUseCase: GetCategoryProductUseCase
+    private val productUseCase: ProductUseCase
 ) : AndroidViewModel(app){
 
     val products : MutableLiveData<Resource<Shop>> = MutableLiveData()
@@ -33,13 +34,13 @@ class HomeViewModel(
         categories.postValue(Resource.Loading())
         try {
             if (isNetworkAvailable(app)){
-                val apiResult = getAllCategoriesUseCase.execute()
+                val apiResult = productUseCase.getAllCategories()
                 categories.postValue(apiResult)
             }else{
                 categories.postValue(Resource.Error(message = "Internet not available"))
             }
         }catch (e : Exception){
-            categories.postValue(Resource.Error(message = "${e.localizedMessage}"))
+            categories.postValue(Resource.Error(message = "${e.localizedMessage} ?: Unknown Error"))
         }
     }
 
@@ -47,13 +48,13 @@ class HomeViewModel(
         products.postValue(Resource.Loading())
         try {
             if (isNetworkAvailable(app)){
-                val apiResult = getAllProductsUseCase.execute()
+                val apiResult = productUseCase.getAllProducts()
                 products.postValue(apiResult)
             }else{
                 products.postValue(Resource.Error(message = "Internet not available"))
             }
         }catch (e : Exception){
-            products.postValue(Resource.Error(message = "${e.localizedMessage}"))
+            products.postValue(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
         }
     }
 
@@ -62,41 +63,17 @@ class HomeViewModel(
             products.postValue(Resource.Loading())
             try {
                 if (isNetworkAvailable(app)){
-                    val apiResult = getCategoryProductUseCase.execute(category)
+                    val apiResult = productUseCase.getCategoryProducts(category)
                     products.postValue(apiResult)
                 }else{
                     products.postValue(Resource.Error(message = "Internet not available"))
                 }
             }catch (e : Exception){
-                products.postValue(Resource.Error(message = "${e.localizedMessage}"))
+                products.postValue(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
             }
         }else{
             getAllProducts()
         }
-
-    }
-
-    private fun isNetworkAvailable(context : Context?) : Boolean{
-        if(context == null) return false
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null){
-                when{
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                        return true
-                    }
-                }
-
-            }
-        }
-        return true//todo check this shit
     }
 
 }

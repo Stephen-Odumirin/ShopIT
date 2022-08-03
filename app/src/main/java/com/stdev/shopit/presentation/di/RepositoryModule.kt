@@ -1,7 +1,7 @@
 package com.stdev.shopit.presentation.di
 
 import com.stdev.shopit.data.repository.ShopRepositoryImpl
-import com.stdev.shopit.data.repository.datasource.ShopCacheDataSource
+import com.stdev.shopit.data.repository.datasource.ShopLocalDataSource
 import com.stdev.shopit.data.repository.datasource.ShopRemoteDataSource
 import com.stdev.shopit.domain.repository.ShopRepository
 import dagger.Module
@@ -16,8 +16,8 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun providesShopRepository(shopRemoteDataSource: ShopRemoteDataSource,shopCacheDataSource: ShopCacheDataSource) : ShopRepository{
-        return ShopRepositoryImpl(shopRemoteDataSource,shopCacheDataSource)
+    fun providesShopRepository(shopRemoteDataSource: ShopRemoteDataSource,localDataSource: ShopLocalDataSource) : ShopRepository{
+        return ShopRepositoryImpl(shopRemoteDataSource,localDataSource)
     }
 
 }

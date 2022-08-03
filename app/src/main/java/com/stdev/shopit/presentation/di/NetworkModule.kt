@@ -1,5 +1,7 @@
 package com.stdev.shopit.presentation.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.stdev.shopit.BuildConfig
 import com.stdev.shopit.data.api.ShopApiService
 import dagger.Module
@@ -44,5 +46,9 @@ class NetworkModule {
     fun providesNewsApiService(retrofit: Retrofit) : ShopApiService{
         return retrofit.create(ShopApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providesGson(): Gson = GsonBuilder().create()
 
 }

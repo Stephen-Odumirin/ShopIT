@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.stdev.shopit.R
 import com.stdev.shopit.data.model.Category2
@@ -15,7 +16,7 @@ import com.stdev.shopit.data.util.Resource
 import com.stdev.shopit.databinding.FragmentHomeBinding
 import com.stdev.shopit.presentation.adapter.HomeAdapter
 import com.stdev.shopit.presentation.viewmodel.HomeViewModel
-import com.stdev.shopit.presentation.viewmodel.HomeViewModelFactory
+//import com.stdev.shopit.presentation.viewmodel.HomeViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,7 +24,6 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     @Inject
-    lateinit var factory: HomeViewModelFactory
     lateinit var viewModel : HomeViewModel
 
     @Inject
@@ -45,8 +45,6 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.bind(view)
 
-        viewModel = ViewModelProvider(this,factory)[HomeViewModel::class.java]
-
         viewModel.getAllCategories()
 
         viewModel.categories.observe(viewLifecycleOwner){response ->
@@ -57,6 +55,8 @@ class HomeFragment : Fragment() {
                     chip.text = "All"
                     chip.id = 0
                     chip.isChecked = true
+                    category2.clear()
+                    binding.chipGroup.removeAllViews()
                     category2.add(Category2(0,"All"))
                     binding.chipGroup.addView(chip)
                     categories?.forEachIndexed { index, category ->
@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
                     Log.i("HomeFragment","${response.data}")
                 }
                 is Resource.Loading -> {
-                    binding.homeRecyclerView.visibility = View.INVISIBLE
+                    //binding.homeRecyclerView.visibility = View.INVISIBLE
                     Log.i("HomeFragment","Loading...")
                 }
                 is Resource.Error -> {
@@ -97,15 +97,37 @@ class HomeFragment : Fragment() {
         }
 
         adapter.setOnItemClickListener {
-            Toast.makeText(requireContext(),"${it.title}",Toast.LENGTH_SHORT).show()
+            val action = HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(it)
+            findNavController().navigate(action)
         }
 
         binding.homeRecyclerView.adapter = adapter
 
         binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            group.isSingleSelection = true
             val chipid = group.checkedChipId
             val category = category2[chipid].category
+            val categoryList = viewModel.products.value?.data?.filter {
+                it.category == category
+            }
             viewModel.getCategoryProducts(category)
+//            adapter.differ.submitList(categoryList)
+        }
+
+        binding.homeCart.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        }
+
+        binding.homeProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+        }
+
+        binding.homeSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        binding.homeSearchView.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
 
     }

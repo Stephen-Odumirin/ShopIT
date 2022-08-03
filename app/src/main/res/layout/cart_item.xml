@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:contentPadding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/cart_item_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/cart_item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/dm_sans"
+            android:text="TMA-2 Comfort Wireless "
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cart_item_image"
+            app:layout_constraintTop_toTopOf="@+id/cart_item_image" />
+
+        <TextView
+            android:id="@+id/cart_item_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/dm_sans_bold"
+            android:text="USD 270"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/cart_item_name"
+            app:layout_constraintStart_toStartOf="@+id/cart_item_name"
+            app:layout_constraintTop_toBottomOf="@+id/cart_item_name" />
+
+        <ImageView
+            android:id="@+id/cart_item_minus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/cart_item_price"
+            app:layout_constraintTop_toBottomOf="@+id/cart_item_price"
+            app:srcCompat="@drawable/ic_minus" />
+
+        <ImageView
+            android:id="@+id/cart_item_plus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/cart_item_quantity"
+            app:layout_constraintTop_toTopOf="@+id/cart_item_minus"
+            app:srcCompat="@drawable/ic_plus" />
+
+        <ImageView
+            android:id="@+id/cart_item_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cart_item_plus"
+            app:layout_constraintEnd_toEndOf="@+id/cart_item_price"
+            app:layout_constraintTop_toTopOf="@+id/cart_item_plus"
+            app:srcCompat="@drawable/ic_trash"
+            app:tint="@color/grey_one" />
+
+        <TextView
+            android:id="@+id/cart_item_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/dm_sans"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cart_item_minus"
+            app:layout_constraintStart_toEndOf="@+id/cart_item_minus"
+            app:layout_constraintTop_toTopOf="@+id/cart_item_minus" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

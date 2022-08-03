@@ -30,7 +30,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
         onItemClickListener = listener
     }
 
-    inner class HomeViewHolder(val binding : SingleItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class HomeViewHolder(private val binding : SingleItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindData(shopItem: ShopItem){
 
@@ -38,7 +38,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
                 .load(shopItem.image)
                 .into(binding.itemImage)
 
-            binding.itemTitle.text = "${shopItem.title}"
+            binding.itemTitle.text = shopItem.title
             binding.itemPrice.text = "USD ${shopItem.price}"
             binding.itemRating.text = "${shopItem.rating.rate}"
             binding.itemReview.text = "${shopItem.rating.count} Reviews"

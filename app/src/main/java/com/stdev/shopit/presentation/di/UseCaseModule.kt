@@ -1,9 +1,8 @@
 package com.stdev.shopit.presentation.di
 
+import android.provider.ContactsContract
 import com.stdev.shopit.domain.repository.ShopRepository
-import com.stdev.shopit.domain.usecase.GetAllCategoriesUseCase
-import com.stdev.shopit.domain.usecase.GetAllProductsUseCase
-import com.stdev.shopit.domain.usecase.GetCategoryProductUseCase
+import com.stdev.shopit.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,22 +13,29 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class UseCaseModule {
 
+
     @Singleton
     @Provides
-    fun provideGetAllProductsUseCase(shopRepository: ShopRepository) : GetAllProductsUseCase{
-        return GetAllProductsUseCase(shopRepository)
+    fun providesCartUseCase(repository: ShopRepository) : CartUseCase{
+        return CartUseCase(repository)
     }
 
     @Singleton
     @Provides
-    fun providesGetAllCategoriesUseCase(shopRepository: ShopRepository) : GetAllCategoriesUseCase{
-        return GetAllCategoriesUseCase(shopRepository)
+    fun providesProductUseCase(repository: ShopRepository) : ProductUseCase{
+        return ProductUseCase(repository)
     }
 
     @Singleton
     @Provides
-    fun providesGetCategoryProductUseCase(shopRepository: ShopRepository) : GetCategoryProductUseCase{
-        return GetCategoryProductUseCase(shopRepository)
+    fun providesProfileUseCase(repository: ShopRepository) : ProfileUseCase{
+        return ProfileUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun providesAuthUseCase(repository: ShopRepository) : AuthUseCase{
+        return AuthUseCase(repository)
     }
 
 }

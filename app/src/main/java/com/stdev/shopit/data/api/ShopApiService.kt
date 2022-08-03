@@ -1,6 +1,7 @@
 package com.stdev.shopit.data.api
 
 import com.stdev.shopit.data.model.*
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -30,6 +31,9 @@ interface ShopApiService {
     @GET("carts/user/{id}")
     suspend fun getCart(@Path(value = "id") id : Int) : Response<Cart>
 
+    @GET("carts/user/{id}")
+    suspend fun getCartProducts(@Path(value = "id") id : Int) : Response<CartItem>
+
     @POST("carts")
     suspend fun addToCart(@Body cartItem : CartItem) : Response<CartItem>
 
@@ -38,5 +42,19 @@ interface ShopApiService {
 
     @DELETE("carts/{id}")
     suspend fun deleteCart(@Path(value = "id") id : Int) : Response<CartItem>
+
+    @GET("users/{id}")
+    suspend fun getUser(@Path(value = "id") id : Int) : Response<User>
+
+    @PUT("users/{id}")
+    suspend fun updateUser(@Path(value = "id") id : Int, @Body user: User) : Response<User>
+
+    //Login user
+    @POST("auth/login")
+    suspend fun loginUser(@Body login : Login): Response<LoginResponse>
+
+    //Register user
+    @POST("users")
+    suspend fun registerUser(@Body user : User): Response<User>
 
 }

@@ -7,5 +7,5 @@ data class Product(
     @SerializedName("productId")
     val productId: Int,
     @SerializedName("quantity")
-    val quantity: Int
+    val quantity: Int,
 )
