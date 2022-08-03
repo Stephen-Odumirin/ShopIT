@@ -5,15 +5,15 @@ Android shopping app built with MVVM Clean Architecture consuming [FAKE STORE AP
 
 Product Screen             | Product Detail Screen     | Profile Screen
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="screenshots/img.jpg"/>            |  <img src="screenshots/img_1.jpg"/>  | <img src="screenshots/img_2.jpg"/>  |
+<img src="screenshots/img.png"/>            |  <img src="screenshots/img_1.png"/>  | <img src="screenshots/img_2.png"/>  |
 
 WishList Screen            | Cart Screen               | Search Screen
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="screenshots/img_3.jpg"/>           |  <img src="screenshots/img_4.jpg"/>              | <img src="screenshots/img_5.jpg"/>  |
+<img src="screenshots/img_3.png"/>           |  <img src="screenshots/img_4.png"/>              | <img src="screenshots/img_5.png"/>  |
 
 Edit Profile Screen            | Splash Screen               | Login Screen
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="screenshots/img_6.jpg"/>           |  <img src="screenshots/img_7.jpg"/>              | <img src="screenshots/img_8.jpg"/>  |
+<img src="screenshots/img_6.png"/>           |  <img src="screenshots/img_7.png"/>              | <img src="screenshots/img_8.png"/>  |
 
 ## Tech Stack
 - [Kotlin](https://developer.android.com/kotlin) - Kotlin is a programming language that can run on JVM. Google has announced Kotlin as one of its officially supported programming languages in Android Studio; and the Android community is migrating at a pace from Java to Kotlin.
